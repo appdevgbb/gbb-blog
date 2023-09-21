@@ -29,7 +29,7 @@ twitter_username: stevegriffith
 github_username:  swgriffith
 
 # Build settings
-theme: minima
+theme: architect
 plugins:
   - jekyll-feed
 
