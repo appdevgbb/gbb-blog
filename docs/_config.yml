@@ -29,9 +29,11 @@ twitter_username: stevegriffith
 github_username:  swgriffith
 
 # Build settings
-theme: architect
+# theme: minima
+remote_theme: pages-themes/architect@v0.2.0
 plugins:
   - jekyll-feed
+  - jekyll-remote-theme
 
 # Exclude from processing.
 # The following items will not be processed, by default.
