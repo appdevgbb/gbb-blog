@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: App Innovation GBB
+title: App Innovation Global Blackbelt
 email: steve.griffith@microsoft.com
 description: >- # this means to ignore newlines until "baseurl:"
   Home for the App Innovation Global Blackbelt team to share Azure knowledge.
