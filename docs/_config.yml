@@ -59,7 +59,7 @@ defaults:
       layout: libdoc/page-split
 kramdown:
     syntax_highlighter_opts:
-        disable: true
+        disable: false
 sass:
     style: compressed
 #exclude: ['/misc']
