@@ -58,7 +58,7 @@ defaults:
     values:
       layout: libdoc/page-split
 kramdown:
-    syntax_highlighter: rouge
+    syntax_highlighter: prism
     syntax_highlighter_opts:
         default_lang: bash
 sass:
