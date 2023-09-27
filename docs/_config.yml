@@ -346,7 +346,7 @@ prism:
         #- bro
         #- bsl
         #- c
-        #- csharp
+        - csharp
         #- cpp
         #- cfscript
         #- chaiscript
@@ -396,14 +396,14 @@ prism:
         #- gherkin
         #- git
         #- glsl
-        #- go
+        - go
         #- graphql
         #- groovy
         #- haml
         #- handlebars
         #- haskell
         #- haxe
-        #- hcl
+        - hcl
         #- hlsl
         #- hoon
         #- http
