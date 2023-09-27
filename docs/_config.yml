@@ -296,7 +296,7 @@ assets:
 prism:
     # THEME
     # coy, dark, funky, okaidia, twilight, solarizedlight, tomorrow, 
-    theme: dark
+    theme: tomorrow
 
     # FONT SIZE
     # CSS font-size property override for <code>
