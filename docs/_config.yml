@@ -335,7 +335,7 @@ prism:
         #- asm6502
         #- autohotkey
         #- autoit
-        #- bash
+        - bash
         #- basic
         #- batch
         #- bbcode
