@@ -298,7 +298,7 @@ assets:
 prism:
     # THEME
     # coy, dark, funky, okaidia, twilight, solarizedlight, tomorrow, 
-    theme: tomorrow
+    theme: dark
 
     # FONT SIZE
     # CSS font-size property override for <code>
@@ -338,6 +338,7 @@ prism:
         #- basic
         #- batch
         #- bbcode
+        - bicep
         #- birb
         #- bison
         #- bnf
@@ -520,7 +521,8 @@ prism:
         - scss
         #- scala
         #- scheme
-        #- shell-session
+        - sh
+        - shell-session
         #- smali
         #- smalltalk
         #- smarty
