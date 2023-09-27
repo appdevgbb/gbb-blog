@@ -29,9 +29,6 @@ url: "https://laughing-bassoon-9k1yyk4.pages.github.io/" # the base hostname & p
 twitter_username: stevegriffith
 github_username:  swgriffith
 
-plugins:
-  - jekyll-feed
-
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
