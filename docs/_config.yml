@@ -58,12 +58,9 @@ defaults:
     values:
       layout: libdoc/page-split
 kramdown:
-    syntax_highlighter: rogue
+    syntax_highlighter: rouge
     syntax_highlighter_opts:
-        disable: false
         default_lang: bash
-        guess_lang: true
-        line_numbers: true
 sass:
     style: compressed
 #exclude: ['/misc']
