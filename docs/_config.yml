@@ -53,10 +53,10 @@ github_username:  swgriffith
 ## From: https://github.com/olivier3lanc/LibDoc-remote-demo/blob/main/_config.yml ##
 ####################################################################################
 
-defaults:
-  -
-    values:
-      layout: libdoc/page-split
+# defaults:
+#   -
+#     values:
+#       layout: libdoc/page
 kramdown:
     syntax_highlighter_opts:
         disable: false
