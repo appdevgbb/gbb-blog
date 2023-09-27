@@ -58,9 +58,8 @@ defaults:
     values:
       layout: libdoc/page-split
 kramdown:
-    syntax_highlighter: prism
     syntax_highlighter_opts:
-        default_lang: bash
+        disable: true
 sass:
     style: compressed
 #exclude: ['/misc']
