@@ -1,62 +1,24 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you:
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-remote_theme: olivier3lanc/Jekyll-LibDoc
+# ---------
+# JEKYLL CONFIGURATION
+# More info at https://jekyllrb.com/docs/configuration/options/
+# ---------
 
-title: App Innovation Global Blackbelt
-email: steve.griffith@microsoft.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Home for the App Innovation Global Blackbelt team to share Azure knowledge.
-domain: "laughing-bassoon-9k1yyk4.pages.github.io"
-# baseurl: "gbb-blog" # the subpath of your site, e.g. /blog
-url: "https://laughing-bassoon-9k1yyk4.pages.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: stevegriffith
-github_username:  swgriffith
-
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
-
-####################################################################################
-## From: https://github.com/olivier3lanc/LibDoc-remote-demo/blob/main/_config.yml ##
-####################################################################################
-
-defaults:
-  -
-    values:
-      layout: libdoc/page
+# TO USE JEKYLL LIBDOC AS REMOTE THEME, UNCOMMENT (available only on Github)
+# remote_theme: olivier3lanc/Jekyll-LibDoc
+title: LibDoc # title of the documentation
+description: >- # Description of the docs. (>- means to ignore newlines until next param)
+  A Jekyll documentation theme with built-in search and playground
+# IMPORTANT: on Github Pages deploys, url and baseurl must be commented or set to proper settings, otherwise links and resources URL are wrong
+url: http://localhost # the base hostname & protocol for your site, e.g. http://example.com::
+baseurl: /Jekyll-LibDoc/_site # the subpath of your site, e.g. /blog
+#permalink: /:path/:basename/:output_ext
+#destination: ../your/new/path # Build relative path destination. The destination directory e.g. /blog
+#keep_files: [cache]
+#markdown: kramdown
+# defaults:
+#   -
+#     values:
+#       layout: libdoc/page # Uncommenting brings pbms on static files that must not be associated to any layout
 kramdown:
     syntax_highlighter_opts:
         disable: true
@@ -76,10 +38,10 @@ playground:
     # Style sheets in <head>. Can be either:
     # Relative URL from site root starting with slash /
     # Absolute URL starting with 'http'
-    stylesheets: 
+    stylesheets:
         - /demo-only/css/normalize.css
         # - /demo-only/css/photoswipe.css
-    
+
     # PLAYGROUND HEAD JAVASCRIPTS
     # Javascript in <head>. Can be either:
     # Relative URL from site root starting with slash /
@@ -89,10 +51,10 @@ playground:
 
     # PLAYGROUND MODULES JAVASCRIPTS
     # Javascript type="module" are set before text/javascript files
-    # JS modules do not work with a file:// URL 
+    # JS modules do not work with a file:// URL
     # JS modules need a web server.
-    scripts_body_modules: 
-        # - /demo-only/js/demo.js
+    scripts_body_modules:
+        - /demo-only/js/demo.js
 
     # PLAYGROUND BODY JAVASCRIPTS
     # Javascript type="text/javascript" near </body>. Can be either:
@@ -103,7 +65,7 @@ playground:
         - /demo-only/js/scroll-btween.js
         # - https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js
         # - /demo-only/js/demo.js
-    
+
     # PLAYGROUND MINIMUM HEIGHT
     # Sets a minimum height for each playground, default is 300px
     min_height: 300px
@@ -118,25 +80,25 @@ playground:
         # PLAYGROUND CACHE
         # Enable or not browser cache for the playground
         cache: false
-        
-        # PLAYGROUND PNG favicon file 
+
+        # PLAYGROUND PNG favicon file
         # Path from root or absolute/remote URL - Square 32x32 pixels icon png format or .ico for old browsers
         favicon: /assets/libdoc/img/favicon/playground-android-chrome-512x512.png
 
         # PLAYGROUND SVG favicon example - NOT supported on Safari
         # favicon: data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%237d6ee7%22></rect><path fill=%22%23fff%22 d=%22M36.63 22.42L66.52 22.42Q66.78 22.87 67.06 23.63Q67.32 24.40 67.32 25.30L67.32 25.30Q67.32 26.83 66.60 27.73Q65.88 28.63 64.53 28.63L64.53 28.63L40.05 28.63L40.05 47.35L63.36 47.35Q63.63 47.80 63.91 48.56Q64.17 49.33 64.17 50.23L64.17 50.23Q64.17 51.76 63.45 52.66Q62.73 53.56 61.38 53.56L61.38 53.56L40.05 53.56L40.05 77.05Q39.60 77.23 38.66 77.41Q37.71 77.59 36.72 77.59L36.72 77.59Q32.67 77.59 32.67 74.34L32.67 74.34L32.67 26.38Q32.67 24.58 33.75 23.50Q34.84 22.42 36.63 22.42L36.63 22.42Z%22></path></svg>
-        
-        # PLAYGROUND AUTOMATIC FAVICON 
+
+        # PLAYGROUND AUTOMATIC FAVICON
         # Automatic generation of multiple PNG favicons URL. Generates proper favicon files sizes for multiple devices. Must be an absolute URL starting with 'http'
-        # favicon_auto must be a public URL image file with a minimum 192x192 pixels 
+        # favicon_auto must be a public URL image file with a minimum 192x192 pixels
         # favicon_auto: https://i.ibb.co/cNmfL3D/android-chrome-512x512.png
-        
+
         # PLAYGROUND AUTHOR NAME
         # Sets the name of the author for the playground. Default is empty.
-        author: 
+        author:
 
         # PLAYGROUND THEME COLOR
-        # Theme color metadata used in some browsers like Chrome that applies this color on browser address bar.
+        # Theme color metadata used in some browsers like Chrome that applies this color on browser address bar.
         # Color must be in HEX, default is LibDoc's color
         color: '#556e1e'
 
@@ -156,24 +118,24 @@ metadata:
     # Enable or not browser cache for the playground
     cache: false
 
-    # PNG favicon file 
+    # PNG favicon file
     # Path from root or absolute/remote URL - Square 32x32 pixels icon png format or .ico for old browsers
     favicon: /assets/libdoc/img/favicon/favicon-32x32.png
 
     # SVG favicon example - NOT supported on Safari
     # favicon: data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%237d6ee7%22></rect><path fill=%22%23fff%22 d=%22M36.63 22.42L66.52 22.42Q66.78 22.87 67.06 23.63Q67.32 24.40 67.32 25.30L67.32 25.30Q67.32 26.83 66.60 27.73Q65.88 28.63 64.53 28.63L64.53 28.63L40.05 28.63L40.05 47.35L63.36 47.35Q63.63 47.80 63.91 48.56Q64.17 49.33 64.17 50.23L64.17 50.23Q64.17 51.76 63.45 52.66Q62.73 53.56 61.38 53.56L61.38 53.56L40.05 53.56L40.05 77.05Q39.60 77.23 38.66 77.41Q37.71 77.59 36.72 77.59L36.72 77.59Q32.67 77.59 32.67 74.34L32.67 74.34L32.67 26.38Q32.67 24.58 33.75 23.50Q34.84 22.42 36.63 22.42L36.63 22.42Z%22></path></svg>
-    
-    # AUTOMATIC FAVICON 
+
+    # AUTOMATIC FAVICON
     # Automatic generation of multiple PNG favicons URL. Generates proper favicon files sizes for multiple devices. Must be an absolute URL starting with 'http'
-    # favicon_auto must be a public URL image file with a minimum 192x192 pixels 
+    # favicon_auto must be a public URL image file with a minimum 192x192 pixels
     # favicon_auto: https://i.ibb.co/cNmfL3D/android-chrome-512x512.png
-    
+
     # AUTHOR NAME
     # Name of the author of the site/project, used into various places of the theme like footer. Default is empty
-    author: 
+    author:
 
     # THEME COLOR
-    # Theme color metadata used in some browsers like Chrome that applies this color on browser address bar.
+    # Theme color metadata used in some browsers like Chrome that applies this color on browser address bar.
     # Color must be in HEX, default is LibDoc's color
     color: '#123456'
 
@@ -182,7 +144,7 @@ metadata:
     # image: /img/custom_image.webp
     image: /assets/libdoc/img/libdoc.png
 
-# SIDEBAR 
+# SIDEBAR
 # Main navigation containing site/project's logo, pages links and search form.
 sidebar:
     # SEARCH FEATURE
@@ -208,7 +170,7 @@ sidebar:
     # Allows to add links that are not pages included into the project
     # Display additional links anywhere into the sidebar
     additional_links:
-        -   url: https://github.com/olivier3lanc/LibDoc-remote-demo # Local or remote URL
+        -   url: https://github.com/olivier3lanc/Jekyll-LibDoc # Local or remote URL
             title: <span class="i-github u-mr-xxs"></span> View on GitHub # Link text
             order: 0 # Sets the rank of the page link into the sidebar, higher values give lower rank for the page link
             # category: Showcase # Add this this link into a category just like pages
@@ -217,24 +179,16 @@ sidebar:
         #     order: 100 # Sets the rank of the page link into the sidebar, higher values give lower rank for the page link
         #     iframe_mode: true
         #     category: Features
-        # Example URL
+        # Example URL
         -   url: https://olivier3lanc.github.io/Scroll-Btween/
             title: Scroll Btween
             order: 500
-            category: Examples using LibDoc
+            category: Showcase
         -   url: https://olivier3lanc.github.io/Scroll-Frames/
             title: Scroll Frames
             order: 500
-            category: Examples using LibDoc
-        -   url: https://olivier3lanc.github.io/seemap/
-            title: SEEMAP
-            order: 500
-            category: Examples using LibDoc
-        # Example remote URL
-        -   url: https://github.com/olivier3lanc/Jekyll-LibDoc
-            title: <span class="i-github u-mr-xxs"></span> Jekyll LibDoc
-            order: 510
-            category: External resources
+            category: Showcase
+        # Example remote URL
         -   url: https://pages.github.com
             title: Github Pages
             order: 510
@@ -247,8 +201,8 @@ sidebar:
 # BADGES
 # Feature that allows to display badges into the footer https://shields.io image html and url
 shields:
-    -   image_html: <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/olivier3lanc/LibDoc-remote-demo?logo=github&style=flat-square">
-        link_url: https://github.com/olivier3lanc/LibDoc-remote-demo
+    -   image_html: <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/olivier3lanc/Jekyll-LibDoc?logo=github&style=flat-square">
+        link_url: https://github.com/olivier3lanc/Jekyll-LibDoc
     -   image_html: <img alt="no trackers, no cookies and no analytics" title="This website has no trackers, no cookies and no analytics. Only feedback is important :)" src="https://img.shields.io/badge/no%20trackers|cookies|analytics-Just%20feedback-green?style=flat-square">
         link_url: 'mailto:olivier3lanc@gmail.com'
 
@@ -259,7 +213,7 @@ assets:
     # The path from which files are available to download. '/' is the root
     path_from_root: /
     # List of extension files you wish to display on assets layout
-    extensions_enabled: 
+    extensions_enabled:
         - pdf
         - js
         - css
@@ -281,10 +235,10 @@ assets:
         - mp4
         - webm
         - ogv
-    
+
     # IMAGES
     # Array list of image extensions (without point) to display as image into asset grid
-    image_extensions: 
+    image_extensions:
         - svg
         - jpg
         - jpeg
@@ -297,14 +251,14 @@ assets:
 # https://prismjs.com/
 prism:
     # THEME
-    # coy, dark, funky, okaidia, twilight, solarizedlight, tomorrow, 
-    theme: solarizedlight
+    # coy, dark, funky, okaidia, twilight, solarizedlight, tomorrow,
+    theme: tomorrow
 
     # FONT SIZE
     # CSS font-size property override for <code>
     font_size: 0.9em
 
-    # LINE HEIGHT 
+    # LINE HEIGHT
     # CSS line-height property override for <code>
     line_height: 1.4em
 
@@ -334,11 +288,10 @@ prism:
         #- asm6502
         #- autohotkey
         #- autoit
-        - bash
+        #- bash
         #- basic
         #- batch
         #- bbcode
-        - bicep
         #- birb
         #- bison
         #- bnf
@@ -347,7 +300,7 @@ prism:
         #- bro
         #- bsl
         #- c
-        - csharp
+        #- csharp
         #- cpp
         #- cfscript
         #- chaiscript
@@ -397,14 +350,14 @@ prism:
         #- gherkin
         #- git
         #- glsl
-        - go
+        #- go
         #- graphql
         #- groovy
         #- haml
         #- handlebars
         #- haskell
         #- haxe
-        - hcl
+        #- hcl
         #- hlsl
         #- hoon
         #- http
@@ -521,8 +474,7 @@ prism:
         - scss
         #- scala
         #- scheme
-        - sh
-        - shell-session
+        #- shell-session
         #- smali
         #- smalltalk
         #- smarty
