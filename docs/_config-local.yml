@@ -18,8 +18,13 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 remote_theme: olivier3lanc/Jekyll-LibDoc
+
+# Local Dev
 plugins:
     - jekyll-remote-theme
+url: http://localhost:4000
+baseurl: /docs
+
 
 title: App Innovation Global Blackbelt
 email: steve.griffith@microsoft.com

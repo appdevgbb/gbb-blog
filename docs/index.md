@@ -1,3 +1,7 @@
+---
+layout: libdoc/page
+---
+
 # Welcome
 
 Welcome to the Azure Global Black Belts website.
