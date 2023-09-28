@@ -1,4 +1,9 @@
-# Using App Gateway for Containers with Egress Lockdown
+---
+title: Using App Gateway for Containers with Egress Lockdown
+description: Demonstrat how to setup the new Azure App Gateway for Containers (AGC) managed ingress controllers with egress lockdown
+authors: 
+  - steve_griffith
+---
 
 This walkthrough demonstates the setup of the new Azure App Gateway for Containers (hereafter AGC) managed ingress controller on a cluster configured with egress traffic forced to an Azure Firewall and with the cluster configured with outboundType Route Table.
 

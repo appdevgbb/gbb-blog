@@ -1,0 +1,25 @@
+   
+   <span style="display: inline-block; width: 15%; padding:0px; margin: 0px; vertical-align: top;">
+      <img src="{{author.image}}?size=80" alt="" />
+   </span>
+      
+
+
+   <span class="author-info" style="width: 80%; display: inline-block;">
+      <h3 id="gbb-author_name" style="padding: 0px; margin: 0px;">{{author.name}}</h3>
+      
+      <ul id="gbb-social_links" style="list-style: none; padding: 0px; margin: 0px;">
+         {% if author.twitter %}
+            <li class="twitter-link" style="position: unset;">
+            Twitter: <a href="https://twitter.com/{{author.twitter}}"><span class="label">@{{author.twitter}}</span></a> 
+            </li>
+         {% endif %}
+         {% if author.github %}
+            <li class="github-link" style="position: unset;">
+               GitHub: <a href="https://github.com/{{author.github}}"><span class="label">@{{author.github}}</span></a>
+            </li>
+         {% endif %}
+      </ul>
+      
+      <p class="gbb-bio">{{author.bio}}</p>
+   </span>

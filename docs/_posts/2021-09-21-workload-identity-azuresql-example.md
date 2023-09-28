@@ -1,8 +1,9 @@
-# Accessing Azure SQL DB via Workload Identity and Managed Identity
-
-## Introduction
-
-In this walk through we'll create an AKS cluster enabled with Workload Identity. We'll then set up an Azure SQL DB and access it via Azure Managed Identity using Workload Identity from a Kubernetes pod.
+---
+title: Accessing Azure SQL DB via Workload Identity and Managed Identity
+description: How to create an AKS cluster enabled with Workload Identity to access Azure SQL DB with Azure Managed Identity from a Kubernetes pod
+authors: 
+  - steve_griffith
+---
 
 ## Setup
 
