@@ -1,0 +1,10 @@
+---
+layout: libdoc/page-split
+---
+
+{% if site.data.authors[page.author] %}
+{% assign author = site.data.authors[page.author] %}
+    {% include author_bio.html %}
+{% endif %}
+
+{{content}}
