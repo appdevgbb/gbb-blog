@@ -20,5 +20,9 @@ Add the following to your LibDoc’s local config file _config-local.yml
 remote_theme: olivier3lanc/Jekyll-LibDoc
 plugins:
     - jekyll-remote-theme
-Run jekyll build or with any custom config file jekyll build -c _your-own-config.yml
+Run jekyll build or with any custom config file 
+
+```:bash
+jekyll build -c _config-local.yml
+```
 Feel free to use the [example repository](https://github.com/olivier3lanc/LibDoc-remote-demo/tree/local) as starter template.
