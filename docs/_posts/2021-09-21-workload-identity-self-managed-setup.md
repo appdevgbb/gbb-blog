@@ -1,4 +1,9 @@
-# Using Workload Identity with Self Managed Clusters
+---
+title: Using Workload Identity with Self Managed Clusters
+description: How to use Workload Identity with your own bespoke Kubernetes Cluster
+authors: 
+  - steve_griffith
+---
 
 ### Cluster Creation
 

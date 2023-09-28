@@ -1,4 +1,9 @@
-# Workload Identity
+---
+title: Workload Identity
+description: How to use Azure Workload Identity with the AKS Workload Identity add-on along with MSAL
+authors: 
+  - steve_griffith
+---
 
 The following walkthrough shows how you can using [Azure Workload Identity](https://azure.github.io/azure-workload-identity/docs/) with the [AKS Workload Identity](https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview) add-on along with [MSAL](https://learn.microsoft.com/en-us/azure/active-directory/develop/reference-v2-libraries)
 

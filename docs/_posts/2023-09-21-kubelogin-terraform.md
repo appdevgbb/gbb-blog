@@ -1,4 +1,9 @@
-# Using Kubelogin with AKS via Terraform
+---
+title: Using Kubelogin with AKS via Terraform
+description: How to use the Terraform AKS provider to create an AKS cluster for Azure Active Directory authentication and RBAC and disable local accounts
+authors: 
+  - steve_griffith
+---
 
 ### Special Thanks!
 
