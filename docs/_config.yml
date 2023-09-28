@@ -54,7 +54,7 @@ github_username:  swgriffith
 defaults:
   -
     values:
-      layout: libdoc/page-split
+      layout: posts
 kramdown:
     syntax_highlighter_opts:
         disable: true
