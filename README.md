@@ -23,6 +23,7 @@ plugins:
 Run jekyll locally with a custom config file 
 
 ```:bash
+cd docs
 jekyll serve -c _config-local.yml
 ```
 Feel free to use the [example repository](https://github.com/olivier3lanc/LibDoc-remote-demo/tree/local) as starter template.
