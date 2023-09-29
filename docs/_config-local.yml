@@ -22,8 +22,6 @@ remote_theme: olivier3lanc/Jekyll-LibDoc
 # Local Dev
 plugins:
     - jekyll-remote-theme
-url: http://localhost:4000
-baseurl: /docs
 
 
 title: App Innovation Global Blackbelt
