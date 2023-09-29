@@ -27,4 +27,33 @@ jekyll serve -c _config-local.yml
 ```
 Feel free to use the [example repository](https://github.com/olivier3lanc/LibDoc-remote-demo/tree/local) as starter template.
 
-## Adding additional 
+## Adding additional syntax components with Prism
+
+The remote template (LibDoc) is not always up to date. When new programming/scripting languages are available for syntax highlighting we'll likely need to manually add them to our Jekyll site.  visit the [prismJS GH repo](https://github.com/PrismJS/prism/tree/master/components) to search for and add the component ```prism-<language>.min.js file``` and then copy raw file and save to ```docs/assets/libdoc/js/prism/prism-<language>.min.js```
+
+## Adding additional Authors
+
+Author metadata is saved to a static file at ```docs/_data/authors.yaml```.  To add a new author simply append a new author in the following format:
+
+```yaml
+ray_kao:
+  name: Ray Kao
+  email: ray.kao@microsoft.com
+  twitter: raykao
+  github: raykao
+  bio: Ray Kao is a Principal Cloud Architect at Microsoft, on the Digital and App Innovation, Azure Global Black Belt Team.
+  image: https://github.com/raykao.png
+```
+
+The new author can now be added to the frontmater of a post or other site markdown file.  Below is an example of frontmatter to place at the beginning of each markdown file:
+
+```markdown
+---
+title: Accessing Azure SQL DB via Workload Identity and Managed Identity
+description: How to create an AKS cluster enabled with Workload Identity to access Azure SQL DB with Azure Managed Identity from a Kubernetes pod
+authors: 
+  - steve_griffith
+---
+```
+
+This is essentially yaml array/list syntax so you can keep adding additional authors accordingly.  The author name matches up with the key/property name of the author in the data file.
