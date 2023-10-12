@@ -192,7 +192,7 @@ kubectl get roles
 
 AKS provides 4 out of the box roles for Azure RBAC in Kubernetes. You can read more [here](https://learn.microsoft.com/en-us/azure/aks/manage-azure-rbac#create-role-assignments-for-users-to-access-the-cluster)
 
-![OOB Roles](/assets/img/2023-10-12-aks-user-min-roles/oob-roles.jpg/oob-roles.jpg)
+![OOB Roles](/assets/img/2023-10-12-aks-user-min-roles/oob-roles.jpg)
 
 ## Create a custom role definition
 
