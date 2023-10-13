@@ -1,5 +1,5 @@
 ---
-layout: libdoc/page-split
+layout: libdoc/page
 ---
 
 # Welcome
