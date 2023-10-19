@@ -214,9 +214,12 @@ sidebar:
     # Allows to add links that are not pages included into the project
     # Display additional links anywhere into the sidebar
     additional_links:
+        -   url: index.html
+            title: Home 
+            order: 0
         -   url: https://github.com/appdevgbb/gbb-blog # Local or remote URL
             title: <span class="i-github u-mr-xxs"></span> View on GitHub # Link text
-            order: 0 # Sets the rank of the page link into the sidebar, higher values give lower rank for the page link
+            order: 1 # Sets the rank of the page link into the sidebar, higher values give lower rank for the page link
             # category: Showcase # Add this this link into a category just like pages
         # -   url: https://www.youtube.com/embed/iWowJBRMtpc # Local or remote URL
         #     title: Iframe mode example # Link text
