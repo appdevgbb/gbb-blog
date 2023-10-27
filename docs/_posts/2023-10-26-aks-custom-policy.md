@@ -11,6 +11,8 @@ authors:
 
 In this walkthrough we'll use the [Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/) project and [AKS Policy](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes) to create a policy that resticts the host name on a Kubernetes Ingress. The host names used for validation will be provided via parameters on the Azure Policy assignment.
 
+The YAML manifest files for this walk through are located [here](https://github.com/swgriffith/azure-guides/tree/master/aks-custom-policy)
+
 ## Cluster Setup
 
 First we'll create an AKS cluster with Azure Policy for AKS enabled.
