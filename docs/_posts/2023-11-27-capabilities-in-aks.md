@@ -13,7 +13,7 @@ Right after Kubernetes 1.21, the way [Capabilities(7)](https://man7.org/linux/ma
 
 The [code](https://github.com/containerd/containerd/blob/main/pkg/cri/server/container_create_linux.go#L260-L267) that prevents any user other than `root` to have capabilities. This was added by the commit referenced [here](https://github.com/containerd/containerd/commit/50c73e6dc550c2cdb579e303ac26394497f9f331):
 
-	```golang
+```golang
 	// Clear all ambient capabilities. The implication of non-root + caps
 	// is not clearly defined in Kubernetes.
 	// See https://github.com/kubernetes/kubernetes/issues/56374
@@ -22,7 +22,7 @@ The [code](https://github.com/containerd/containerd/blob/main/pkg/cri/server/con
 		customopts.WithoutAmbientCaps,
 		customopts.WithSelinuxLabels(processLabel, mountLabel),
 	)
-	```
+```
 
 On the previous note, we can add/remove capabilities to `root` - which essentially removes a lot of the superpowers that `root` have on by default (e.g.: cap_net_admin).
 
