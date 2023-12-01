@@ -9,6 +9,8 @@ authors:
 
 ## Introduction
 
+>**NOTE:** The manifest files used in this post can be found [here](https://github.com/swgriffith/azure-guides/tree/master/image-signing)
+
 In the prior post, we ran through using the notation cli tool to sign images in Azure Container Registry. If you havent gone through that post, I recommend you start there at [Part 1 - Image Signing with Notation](./part1-notation-usage.html)
 
 In this post, we'll walk through the steps to manually configure AKS with Gatekeeper and the Ratify project to enforce an image signature verification policy.
