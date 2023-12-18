@@ -1,6 +1,6 @@
 ---
 title: Using External DNS in AKS with Azure Workload Identity
-description: The External DNS project supports auto record creation in both Azure publi and Private DNS Zones. In this walk through we'll show how to configure an install External DNS in an AKS cluster using Workload Identity to update A records in an Azure Private DNS Zone
+description: The External DNS project supports auto record creation in both Azure public and Private DNS Zones. In this walk through we'll show how to configure an install External DNS in an AKS cluster using Workload Identity to update A records in an Azure Private DNS Zone
 authors: 
   - steve_griffith
 ---
