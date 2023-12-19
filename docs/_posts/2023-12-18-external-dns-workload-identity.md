@@ -320,4 +320,4 @@ az network private-dns record-set a list -g $RG -z $AZURE_DNS_ZONE -o yaml --que
 
 ## Conclusion
 
-In the above example we set up and AKS cluster, enabled with Azure Workload Identity, and installed external-dns to automatically managed private DNS records in and Azure Private Zone. We demonstrated this for both Services and Pods. There are other options for managing the rights of the external-dns user, but I believe that Workload Identity give syou the best overall granularity of control.
+In the above example we set up and AKS cluster, enabled with Azure Workload Identity and installed external-dns to automatically managed private DNS records in and Azure Private Zone. We demonstrated this for both Services and Pods. There are other options for managing the rights of the external-dns user, but I believe that Workload Identity gives you the best overall granularity of control.
