@@ -23,7 +23,7 @@ For that change to be persistent, make sure you add it to `/etc/sysctl.conf`. Mo
 
 ### Scenario 1: NVA routing to a pod through an internal load balancer
 
-![scenario 1](/assets/img/2024-02-02-linux-nva-to-aks/scenario1.jpg)
+![scenario 1](/assets/img/2024-02-02-securing-your-aks-cluster-with-a-linux-firewall-vm/scenario1.jpg)
 
 In this scenario, we will route traffic from the Linux VM to a pod in the AKS cluster through an internal load balancer. The internal load balancer will balance the traffic among the pods that match a certain label selector. The diagram below shows the network topology for this scenario:
 
@@ -132,7 +132,7 @@ $ sudo iptables-save > /etc/iptables/rules.v4
 
 In this second scenario, we will route traffic from the Linux VM directly to a pod in the AKS cluster without going through an internal load balancer. The diagram below shows the network topology for this scenario:
 
-![scenario 2](/assets/img/2024-02-02-linux-nva-to-aks/scenario2.jpg)
+![scenario 2](/assets/img/2024-02-02-securing-your-aks-cluster-with-a-linux-firewall-vm/scenario2.jpg)
 
 To implement this scenario, we will need to do the following steps:
 
