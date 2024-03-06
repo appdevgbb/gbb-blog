@@ -9,7 +9,7 @@ authors:
 
 When working with secrets in an application running in Kubernetes, you can use native Kubernetes secrets, however there are limitations in the security of those secrets. A better practice is to use a secure vault, like Azure Key Vault. 
 
-Azure Key Vault can be accessed via a direct SDK call, as demonstrated in our previous [Workload Identity](./2023-09-21-workload-identity-example.html) post. However, in some cases you may not have the option to use the SDK, like in cases where you dont have access to source code. In those cases you may prefer to load secrets directly into an environment variable or a file. In these cases, the Azure Key Vault CSI driver is here to save the day. 
+Azure Key Vault can be accessed via a direct SDK call, as demonstrated in our previous [Workload Identity](https://azureglobalblackbelts.com/2023/09/21/workload-identity-example.html) post. However, in some cases you may not have the option to use the SDK, like in cases where you dont have access to source code. In those cases you may prefer to load secrets directly into an environment variable or a file. In these cases, the Azure Key Vault CSI driver is here to save the day. 
 
 The following walkthrough shows how you can using [Azure Workload Identity](https://azure.github.io/azure-workload-identity/docs/) with the [AKS Workload Identity](https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview) add-on along with the Key Vault CSI Driver to mount secrets and volumes in your pods.
 
