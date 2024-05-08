@@ -24,7 +24,6 @@ RG=WorkloadIdentityKVCSIRG
 LOC=eastus
 CLUSTER_NAME=wikvcsilab
 UNIQUE_ID=$CLUSTER_NAME$RANDOM
-ACR_NAME=$UNIQUE_ID
 KEY_VAULT_NAME=$UNIQUE_ID
 
 # Create the resource group
