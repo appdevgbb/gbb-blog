@@ -99,7 +99,7 @@ helm install gatekeeper/gatekeeper  \
 export VAULT_URI=$(az keyvault show --name ${AKV_NAME} --resource-group ${RG} --query "properties.vaultUri" -otsv)
 
 # Install Ratify
-helm repo add ratify https://deislabs.github.io/ratify
+helm repo add ratify https://ratify-project.github.io/ratify
 
 helm install ratify \
     ratify/ratify --atomic \
@@ -117,10 +117,10 @@ Now that gatekeeper and ratify are running, lets apply a new constraint and poli
 
 ```bash
 # Create the gatekeeper policy template
-kubectl apply -f ratify-policy-template.yaml
+kubectl apply -f https://raw.githubusercontent.com/swgriffith/azure-guides/master/image-signing/ratify-policy-template.yaml
 
 # Apply the policy with a gatekeeper constraint
-kubectl apply -f ratify-policy-constraint.yaml
+kubectl apply -f https://raw.githubusercontent.com/swgriffith/azure-guides/master/image-signing/ratify-policy-constraint.yaml
 ```
 
 ## Test the policy!
