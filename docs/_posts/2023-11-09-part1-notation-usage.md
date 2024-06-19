@@ -139,7 +139,7 @@ Now we'll create an Azure Key Vault instance for our test and configure the sign
 AKV_NAME=mynotationtest
 
 # Create the key vault
-az keyvault create --name $AKV_NAME --resource-group $RG
+az keyvault create --name $AKV_NAME --resource-group $RG --enable-rbac-authorization false
 
 # Set some variables for the cert creation
 # Name of the certificate created in AKV
