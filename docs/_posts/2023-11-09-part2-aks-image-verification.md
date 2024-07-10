@@ -96,7 +96,7 @@ helm install gatekeeper/gatekeeper  \
     --set mutatingWebhookTimeoutSeconds=2
 
 # Get the key vault URI which ratify will need
-export VAULT_URI=$(az keyvault show --name ${AKV_NAME} --resource-group ${RG} --query "properties.vaultUri" -otsv)
+export VAULT_URI=$(az keyvault show --name ${AKV_NAME} --resource-group ${RG} --query "properties.vaultUri" -o tsv)
 
 # Install Ratify
 helm repo add ratify https://ratify-project.github.io/ratify
