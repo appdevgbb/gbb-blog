@@ -174,7 +174,7 @@ cat <<EOF > ./brooklyn_io_policy.json
     "keyUsage": [
         "digitalSignature"
     ],
-    "subject": "CN=brooklyn.io,O=Notation,L=Brooklyn,ST=NY,C=US",
+    "subject": "${CERT_SUBJECT}",
     "validityInMonths": 12
     }
 }
