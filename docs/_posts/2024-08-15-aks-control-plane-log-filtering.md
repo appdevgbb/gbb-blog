@@ -1,6 +1,6 @@
 ---
 title: Using Stream Analytics to Filter AKS Control Plane Logs
-description: While AKS doesn't provide access to the control plane components, it does provide the logs from those components for diagnostic and security purposes. In this walkthrough we'll set up AKS diagnostic settings to ship logs to an Azure Event Hub. We'll then use Azure Stream Analytics to filter those results and output the filtered records to an output target. In this case, Azure Service Bus.
+description: Using Azure Stream Analytics to filter Kubernetes control plane log data from AKS diagnostics in order to isolate critical data and reduce log retention cost.
 
 authors: 
   - steve_griffith
