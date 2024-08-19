@@ -103,7 +103,7 @@ az identity federated-credential create \
 
 ```bash
 # Create a key vault
-az keyvault create --name $KEY_VAULT_NAME --resource-group $RG --location $LOC
+az keyvault create --name $KEY_VAULT_NAME --resource-group $RG --location $LOC --enable-rbac-authorization false
 
 # Create a secret
 az keyvault secret set --vault-name $KEY_VAULT_NAME --name "Secret" --value "Hello"
