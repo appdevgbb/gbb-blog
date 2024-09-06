@@ -1,7 +1,7 @@
 ---
 title: Multi-Cluster Layer 4 Load Balancing with Fleet Manager
-description: How to configure a multi-cluster layer 4 load balancer across multiple AKS clusters 
-using Fleet Manager.
+description: How to configure a multi-cluster layer 4 load balancer across multiple AKS clusters using Fleet Manager.
+
 authors: 
   - diego_casati
 ---
