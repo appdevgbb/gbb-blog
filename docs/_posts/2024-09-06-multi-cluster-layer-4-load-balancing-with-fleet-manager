@@ -271,4 +271,4 @@ and deployment of services across clusters. This approach ensures improved avail
 scalability for applications deployed across multiple regions.
 
 For the full deployment script used in this tutorial, you can access 
-the App Innovation GBB GitHub repository [link].
+the App Innovation GBB GitHub repository: [Pattern - Multi-Cluster Layer 4 Load Balancer with Azure Fleet Manager](https://github.com/appdevgbb/pattern-fleet-manager/tree/main).
