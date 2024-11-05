@@ -1,6 +1,6 @@
 ---
 title: End to End TLS Encryption with AKS and AFD
-description: Using Azure Front Door infront of an in cluster nginx ingress controller to provide end to end TLS encryption of application traffic.
+description: Using Azure Front Door in-front of an in-cluster nginx ingress controller to provide end-to-end TLS encryption of application traffic.
 authors: 
   - steve_griffith
 ---
@@ -60,9 +60,9 @@ VNET_SUBNET_ID=$(az network vnet subnet show -g $RG --vnet-name $VNET_NAME -n ak
 
 Now, lets create the AKS cluster where our workload and ingress controller will reside. This will be a very plain AKS cluster, however we will deploy to our above created subnet and will enable the following features:
 
-- Workload Identity: This will be used by the Key Vault CSI Driver to retrieve the cluster certificate
-- OIDC Issuer: This is required by Workload Identity to be used during service account fedration
-- Key Vault CSI Driver: This will be used to retrieve the cluster certificate
+- *Workload Identity:* This will be used by the Key Vault CSI Driver to retrieve the cluster certificate
+- *OIDC Issuer:* This is required by Workload Identity to be used during service account fedration
+- *Key Vault CSI Driver:* This will be used to retrieve the cluster certificate
 
 > *Note:* Since I created a NSG at the subnet level, I'll need to create a custom role which will be used later for automated private link creation. If you don't have an NSG on the subnet, and just rely on the managed NSG that AKS owns, then you don't need to create the custom role documented below. 
 
@@ -184,8 +184,8 @@ az keyvault set-policy --name $KEY_VAULT_NAME -g $RG --secret-permissions get --
 
 For certificate creation, I actually took two separate paths.
 
-- Option 1: Use Azure [App Service Certificates](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-app-service-certificate?tabs=portal) to create and manage the certificate.
-- Option 2: Use '[LetsEncrypt](https://letsencrypt.org/)' and [Certbot](https://certbot.eff.org/) to create the certificate.
+- *Option 1:* Use Azure [App Service Certificates](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-app-service-certificate?tabs=portal) to create and manage the certificate.
+- *Option 2:* Use '[LetsEncrypt](https://letsencrypt.org/)' and [Certbot](https://certbot.eff.org/) to create the certificate.
 
 Both options are totally fine, but have slight differences in approach, which I'll highlight below. If you're working in a large enterprise, you'll likely have a completely separate internal process for getting a certificate. In the end, all we care about is that we have a valid cert and key file.
 
@@ -194,7 +194,7 @@ Both options are totally fine, but have slight differences in approach, which I'
 
 We won't cover all the details of setting up a certificate with App Service Certificates, but you can review the doc [here](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-app-service-certificate?tabs=portal) for those steps.
 
-When I created the certificate, I told App Svc Certs to store the cert in the Key Vault just created. We'll use the [Key Vault CSI Driver](https://learn.microsoft.com/en-us/azure/aks/csi-secrets-store-driver) to mount the certificate into the ingress controller, but to do that we need to get the certficate into a format that the CSI driver can read. App Svc Certs stores the certificate in an Azure Kevy Vault in pfx format as a secret, but we need it stored as a certificate, so we'll export the PFX from the Azure Key Vault Secret and then import it as a certificate.
+When I created the certificate, I told App Svc Certs to store the cert in the Key Vault just created. We'll use the [Key Vault CSI Driver](https://learn.microsoft.com/en-us/azure/aks/csi-secrets-store-driver) to mount the certificate into the ingress controller, but to do that we need to get the certficate into a format that the CSI driver can read. App Svc Certs stores the certificate in an Azure Key Vault in pfx format as a secret, but for the Key Vault CSI Driver we need it stored as a certificate. We can export the PFX from the Azure Key Vault Secret and then import it as a certificate.
 
 ```bash
 APP_CERT_NAME=e2elab
@@ -215,7 +215,7 @@ I'm not going to get into all the specifics of using Certbot with LetsEncrypt, b
 
 1. Get an internet reachable host capable of running a webserver on ports 80 and 443
 2. Create an A-record for your target domain to the public IP of the server. This is required for hostname validation used by Certbot
-3. Run the certbot command as a priviledged user
+3. Run the certbot command as a priviledged user on that web server host mentioned in #1 above
 
 Here's a sample of the command I used to create a cert with two entries in the certificate Subject Alternate Names:
 
@@ -240,7 +240,7 @@ az keyvault certificate import --vault-name $KEY_VAULT_NAME --name $APP_CERT_NAM
 
 Great! Now we have our network, cluster, key vault and secrets ready to go. We can now create our SecretProviderClass, which is the link between our Kubernetes resources and the secret in Azure Key Vault. We'll actually use this SecretProviderClass to mount the certificate into our ingress controller.
 
->*Note:* The Key Vault CSI driver uses the Kubernetes Container Storage Interface to initiate it's connection to Key Vault. That means, even though we really only care about having the certificate as a secret for use in our ingress definition, we still need to mount the secret as a volume to create the Kubernetes Secret. We'll mount the certificate secret to the ingress controller, but you could mount it to your app alternatively. Especially if you plan to use the certificate in your app directly as well.
+>*Note:* The Key Vault CSI driver uses the Kubernetes Container Storage Interface to initiate it's connection to Key Vault. That means, even though we really only care about having the certificate as a Kubernetes secret for use in our ingress definition, we still need to mount the secret as a volume to create the Kubernetes Secret. We'll mount the certificate secret to the ingress controller, but you could mount it to your app alternatively, especially if you plan to use the certificate in your app directly as well.
 
 When you create a certificate in Azure Key Vault and then use the Key Vault CSI driver to access that certificate, you use the 'secret' object type and the certificate name. The returned secret contains the certificate key and crt file using the names tls.key and tls.crt. 
 
@@ -323,7 +323,7 @@ helm install e2elab-ic ingress-nginx/ingress-nginx \
 
 ## Deploy a Sample App
 
-We'll need a sample app to test our configuration. I personally like the '[echoserver](https://github.com/cilium/echoserver)' app from the cilium team. It's nice, as it returns the HTTP headers as the web response, which can be very useful in certificate testing.
+We'll need a sample app to test our configuration. I personally like the '[echoserver](https://github.com/cilium/echoserver)' app from the cilium team. It's nice, as it returns the HTTP headers as the web response, which can be very useful in http request testing.
 
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -397,17 +397,11 @@ spec:
 EOF
 ```
 
-In my setup I'm not connected to the Virtual Network directly, so I'll need to use 'kubectl port-forward' to connect to the ingress. Additionally, since we don't own the 'demo.azure.com' domain, we'll need to edit our local hosts file to handle the dns lookup.
-
-The following is my /etc/hosts file:
-
-```bash
-127.0.0.1	demo.azure.com
-```
-
 Since we haven't set up the Azure Front Door yet, we cant access the app on the public IP yet. We can fake this out, however, with some curl magic. curl lets you call a local endpoint and pretend like you're connecting to a different host name. We'll need this for our ingress certificate to work.
 
 First we port-forward and then we'll curl with some special options.
+
+>*Note:* If you prefer, you can also just edit your local 'hosts' file to fake out the DNS lookup. Just create an entry that maps your local loopback address (127.0.0.1) to your DNS name.
 
 ```bash
 # In terminal 1, port-forward to the ingress nginx service name
@@ -449,21 +443,21 @@ We'll do the rest in the Azure Portal, so open a browser to [https://portal.azur
 
 To use our certificate with Azure Front Door, we need to attach the certificate in Azure Key Vault to an Front Door Secret. We do this in the 'Secrets' pane under 'Security'.
 
-![link certificate](./images/linkcert.jpg)
+![link certificate](/assets/img/2024-11-05-afd-aks-ingress-tls/linkcert.jpg)
 
 ### Create the Custom Domain Configuration
 
 Now we tell AFD what domain we'd like to use and link that domain name to the associated secret that we just created for our certificate.
 
-![afd add domain 1](./images/afd-adddomain1.jpg)
+![afd add domain 1](/assets/img/2024-11-05-afd-aks-ingress-tls/afd-adddomain1.jpg)
 
 Next we select the appropriate secret for our domain.
 
-![afd add domain 2](./images/afd-adddomain2.jpg)
+![afd add domain 2](/assets/img/2024-11-05-afd-aks-ingress-tls/afd-adddomain2.jpg)
 
 Finally, we see the domain entry created and pending association with an endpoint.
 
-![afd add domain 3](./images/afd-adddomain3.jpg)
+![afd add domain 3](/assets/img/2024-11-05-afd-aks-ingress-tls/afd-adddomain3.jpg)
 
 
 ### Create the Origin Group
@@ -474,41 +468,41 @@ Creating the origin group is a two step process. You create the origin group, bu
 
 You'll provide a message that will show up on the private link approval side. This message can be whatever you want.
 
-![origin setup 1](./images/origin-setup1.jpg)
+![origin setup 1](/assets/img/2024-11-05-afd-aks-ingress-tls/origin-setup1.jpg)
 
 Now we complete our origin setup, making sure to set the right path to our ingress health probe. In our case, the URL will forward to '/hello-world', as we know this will return an HTTP 200 response. If you have your own health endpoint, you can set that here.
 
-![origin setup 2](./images/origin-setup2.jpg)
+![origin setup 2](/assets/img/2024-11-05-afd-aks-ingress-tls/origin-setup2.jpg)
 
 Now we see that our origin is created, but still pending association with an endpoint.
 
-![origin setup 3](./images/origin-setup3.jpg)
+![origin setup 3](/assets/img/2024-11-05-afd-aks-ingress-tls/origin-setup3.jpg)
 
 ### Create the AFD Endpoint
 
 In 'Front Door manager' select 'Add an endpoint' and give the endpoint a name. Make note of the FQDN is provides. This will be used in our DNS for the CNAME.
 
-![add an endpoint 1](./images/addendpoint1.jpg)
+![add an endpoint 1](/assets/img/2024-11-05-afd-aks-ingress-tls/addendpoint1.jpg)
 
 Now we'll add a route by clicking 'Add a route'.
 
-![add an endpoint 2](./images/addendpoint2.jpg)
+![add an endpoint 2](/assets/img/2024-11-05-afd-aks-ingress-tls/addendpoint2.jpg)
 
 In the 'add route' screen, we'll select our origin and the associated domain, and set any additional options. At this point, you should also make note of the endpoint FQDN, which we'll need to use as our CNAME in our DNS for our host name.
 
-![add an endpoint 3](./images/addendpoint3.jpg)
+![add an endpoint 3](/assets/img/2024-11-05-afd-aks-ingress-tls/addendpoint3.jpg)
 
-![add an endpoint 4](./images/addendpoint4.jpg)
+![add an endpoint 4](/assets/img/2024-11-05-afd-aks-ingress-tls/addendpoint4.jpg)
 
 When finished, your endpoint should look as follows.
 
-![add an endpoint 5](./images/addendpoint5.jpg)
+![add an endpoint 5](/assets/img/2024-11-05-afd-aks-ingress-tls/addendpoint5.jpg)
 
 ### Update your DNS
 
 We need our DNS name to point to the Azure Front Door endpoint, so we'll take that Front Door provided FQDN and create a CNAME record. 
 
-![dns cname entry](./images/dnscname.jpg)
+![dns cname entry](/assets/img/2024-11-05-afd-aks-ingress-tls/dnscname.jpg)
 
 ### Approve the Private Link request
 
@@ -521,19 +515,19 @@ AKS_CLUSTER_MC_RG=$(az aks show -g $RG -n $CLUSTER_NAME -o tsv --query nodeResou
 
 Back in the Azure Portal, navigate to the Managed Cluster Resource Group and find the private link.
 
-![approve private link 1](./images/approvepl1.jpg)
+![approve private link 1](/assets/img/2024-11-05-afd-aks-ingress-tls/approvepl1.jpg)
 
-Click on the 'Private endpoing connections' where you should see a pending request.
+Click on the 'Private endpoint connections' where you should see a pending request.
 
-![approve private link 2](./images/approvepl2.jpg)
+![approve private link 2](/assets/img/2024-11-05-afd-aks-ingress-tls/approvepl2.jpg)
 
 Select the private link and click 'Approve'.
 
-![approve private link 3](./images/approvepl3.jpg)
+![approve private link 3](/assets/img/2024-11-05-afd-aks-ingress-tls/approvepl3.jpg)
 
 You'll see a dialog box with the message you sent when creating the origin connection.
 
-![approve private link 4](./images/approvepl4.jpg)
+![approve private link 4](/assets/img/2024-11-05-afd-aks-ingress-tls/approvepl4.jpg)
 
 ## Test
 
@@ -588,6 +582,6 @@ Request Body:
 
 ## Conclusion
 
- Congrats! You should now how a working Azure Front Door directing TLS secured traffic to an in cluster ingress controller!
+ Congrats! You should now have a working Azure Front Door directing TLS secured traffic to an in cluster ingress controller!
 
  >*Note:* In this walk through we did not add encryption between the ingress controller and the backend deployment. This can be done by sharing the same, or different, certificate to the deployment pods. You then enable backend encryption on the ingress controller. Alternatively, you could use a service mesh between the ingress and the backend deployment.
