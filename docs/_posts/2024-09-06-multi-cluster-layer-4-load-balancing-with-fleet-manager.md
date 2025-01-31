@@ -1,7 +1,7 @@
 ---
 title: Multi-Cluster Layer 4 Load Balancing with Fleet Manager
-description: How to configure a multi-cluster layer 4 load balancer across multiple AKS clusters 
-using Fleet Manager.
+description: How to configure a multi-cluster layer 4 load balancer across multiple AKS clusters using Fleet Manager.
+
 authors: 
   - diego_casati
 ---
@@ -201,7 +201,7 @@ KUBECONFIG=fleet kubectl apply -n aks-store-demo -f  https://raw.githubuserconte
 KUBECONFIG=fleet kubectl apply -n aks-store-demo -f aks-store-serviceexport.yaml
 ```
 
-Create the ClusterResourcePlacement (CRP):
+**Create the ClusterResourcePlacement (CRP)**:
 
 ```bash
 cat <<EOF > cluster-resource-placement.yaml
@@ -232,7 +232,7 @@ EOF
 kubectl apply -f cluster-resource-placement.yaml
 ```
 
-Create and deploy MultiClusterService (MCS):
+**Create and deploy MultiClusterService (MCS)**:
 
 ```bash
 cat <<EOF > aks-store-mcs.yaml
@@ -249,6 +249,45 @@ EOF
 # Deploy the MultiClusterService resource
 KUBECONFIG=east-aks kubectl apply -f aks-store-mcs.yaml
 ```
+#### Testing the Application
+
+Once the MultiClusterService (MCS) has been successfully deployed across the AKS clusters, you can test the application to ensure it's working properly. Follow these steps to verify the setup:
+
+**Get the external IP address of the service**:
+
+After deploying the MultiClusterService, you need to retrieve the external IP address to access the service. Run the following command to get the external IP for both clusters:
+
+```bash
+KUBECONFIG=east-aks kubectl get services -n aks-store-demo
+KUBECONFIG=west-aks kubectl get services -n aks-store-demo
+```
+Look for the external IP under the EXTERNAL-IP column for the store-front service.
+
+**Access the application**:
+
+Once you have the external IP addresses from both clusters, open a browser or use curl to access the application using the IP addresses:
+
+```bash
+curl http://<external-ip>
+```
+
+Replace <external-ip> with the actual external IP you retrieved from the previous step. The application should be accessible through either of the IPs.
+
+Validate cross-region load balancing:
+
+Since the `MultiClusterService` has been deployed across multiple regions, traffic can be balanced between the AKS clusters. You can simulate 
+traffic from different regions using tools like curl, Postman, or load-testing utilities to confirm that the service is responding from both regions.
+
+**Verify service status**:
+
+You can check the status of the deployed services and pods on both clusters to ensure everything is running correctly:
+
+```bash
+KUBECONFIG=east-aks kubectl get pods -n aks-store-demo
+KUBECONFIG=west-aks kubectl get pods -n aks-store-demo
+```
+Ensure that all services and pods show a Running status, indicating that the application is running across both clusters.
+
 #### Remove the setup
 To remove this setup, you can run the following set of commands:
 
@@ -271,4 +310,4 @@ and deployment of services across clusters. This approach ensures improved avail
 scalability for applications deployed across multiple regions.
 
 For the full deployment script used in this tutorial, you can access 
-the App Innovation GBB GitHub repository [link].
+the App Innovation GBB GitHub repository: [Pattern - Multi-Cluster Layer 4 Load Balancer with Azure Fleet Manager](https://github.com/appdevgbb/pattern-fleet-manager/tree/main).
