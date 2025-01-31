@@ -22,6 +22,7 @@ remote_theme: olivier3lanc/Jekyll-LibDoc
 # Local Dev
 plugins:
     - jekyll-remote-theme
+    - jekyll-feed
 
 
 title: App Innovation Global Blackbelt
