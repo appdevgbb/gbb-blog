@@ -6,6 +6,10 @@ authors:
   - diego_casati
 ---
 
+Updates: 
+  - 2025-02-11: Major changes to the post bringing more clarity after peer review. Thanks @awkwardindustries and Joe Yostos!
+  - 2025-02-13: Fix some command line issues.
+
 # Multi-Cluster Layer 4 Load Balancing with Fleet Manager
 This guide demonstrates how to set up layer 4 load balancing across multiple AKS clusters using 
 Azure Fleet Manager. We’ll create two AKS clusters in different regions (East US and West US), 
@@ -104,7 +108,9 @@ az aks create \
   --resource-group ${RESOURCE_GROUP_EAST} \
   --name ${CLUSTER_EAST} \
   --network-plugin azure \
-  --vnet-subnet-id ${SUBNET_ID_EAST}
+  --vnet-subnet-id ${SUBNET_ID_EAST} \
+  --generate-ssh-keys
+
 
 # get the cluster credentials (East US)
 az aks get-credentials \
@@ -141,7 +147,8 @@ az aks create \
   --resource-group ${RESOURCE_GROUP_WEST} \
   --name ${CLUSTER_WEST} \
   --network-plugin azure \
-  --vnet-subnet-id ${SUBNET_ID_WEST}
+  --vnet-subnet-id ${SUBNET_ID_WEST} \
+  --generate-ssh-keys
 
 # get the cluster credentials (West US)
 az aks get-credentials \
@@ -241,7 +248,7 @@ az fleet member create \
 
 Check if everything was setup correctly 
 ```bash
-KUBECONFIG=gbb-fleet kubectl get memberclusters
+KUBECONFIG=${FLEET} kubectl get memberclusters
 ```
 
 You should see an output similar to this:
