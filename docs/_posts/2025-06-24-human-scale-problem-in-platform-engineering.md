@@ -68,4 +68,6 @@ This isn't a problem we solve once and move on from. The challenges evolve as ou
 
 *What's your experience with the human scale problem in your organization? Are you seeing similar patterns where solutions create new coordination challenges?*
 
+Cross Posted to: https://www.linkedin.com/pulse/human-scale-problem-platform-engineering-ray-kao-cnjhc/
+
 #PlatformEngineering #DevOps #DeveloperExperience #AgenticDevOps #AzureGlobalBlackBelts #FieldNotes
