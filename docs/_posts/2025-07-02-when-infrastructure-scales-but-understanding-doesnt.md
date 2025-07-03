@@ -83,4 +83,6 @@ Again the end goal isn't to eliminate human expertise...it's to amplify it and m
 
 *Have you experienced this productivity paradox in your organization? How much time do your developers spend fighting with tools versus building features?*
 
+Cross Posted to: https://www.linkedin.com/pulse/when-infrastructure-scales-understanding-doesnt-ray-kao-2rpic
+
 #PlatformEngineering #DevOps #DeveloperProductivity #AI #AgenticDevOps
