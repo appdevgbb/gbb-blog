@@ -8,6 +8,37 @@ const config: Config = {
   title: 'Azure Global Blackbelt',
   tagline: 'Home for the Azure Global Blackbelt team to share knowledge',
   favicon: 'img/gbb.png',
+  
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'og:title',
+        content: 'Azure Global Blackbelt',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'og:description',
+        content: 'Home for the Azure Global Blackbelt team to share knowledge',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'og:image',
+        content: 'https://azureglobalblackbelts.com/img/gbb.png',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'og:type',
+        content: 'website',
+      },
+    },
+  ],
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
