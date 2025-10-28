@@ -39,10 +39,26 @@
 /* Navbar styling - Keep dark in both light and dark modes for readability */
 .navbar {
   background: linear-gradient(90deg, #282a36 0%, #282a36 100%);
+  color: #ffffff;
+}
+
+.navbar__title,
+.navbar__brand,
+.navbar__link,
+.navbar__item a {
+  color: #ffffff !important;
 }
 
 [data-theme='dark'] .navbar {
   background: linear-gradient(90deg, #282a36 0%, #282a36 100%);
+  color: #ffffff;
+}
+
+[data-theme='dark'] .navbar__title,
+[data-theme='dark'] .navbar__brand,
+[data-theme='dark'] .navbar__link,
+[data-theme='dark'] .navbar__item a {
+  color: #ffffff !important;
 }
 
 /* Navbar and sidebar link hover colors */
