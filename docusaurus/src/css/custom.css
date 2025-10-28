@@ -1,0 +1,147 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  /* Purple color scheme */
+  --ifm-color-primary: #8885f9;
+  --ifm-color-primary-dark: #6f6bf7;
+  --ifm-color-primary-darker: #6461f6;
+  --ifm-color-primary-darkest: #4340f4;
+  --ifm-color-primary-light: #a19ffb;
+  --ifm-color-primary-lighter: #aca9fc;
+  --ifm-color-primary-lightest: #c7c5fd;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(136, 133, 249, 0.15);
+  --ifm-link-color: #8885f9;
+  --ifm-link-hover-color: #8885f9;
+  --ifm-link-hover-decoration: underline;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #8885f9;
+  --ifm-color-primary-dark: #6f6bf7;
+  --ifm-color-primary-darker: #6461f6;
+  --ifm-color-primary-darkest: #4340f4;
+  --ifm-color-primary-light: #a19ffb;
+  --ifm-color-primary-lighter: #aca9fc;
+  --ifm-color-primary-lightest: #c7c5fd;
+  --docusaurus-highlighted-code-line-bg: rgba(136, 133, 249, 0.2);
+  --ifm-link-color: #8885f9;
+  --ifm-link-hover-color: #8885f9;
+  --ifm-link-hover-decoration: underline;
+}
+
+/* Navbar styling */
+.navbar {
+  background: linear-gradient(90deg, #0078d4 0%, #0078d4 100%);
+}
+
+[data-theme='dark'] .navbar {
+  background: linear-gradient(90deg, #282a36 0%, #282a36 100%);
+}
+
+/* Navbar and sidebar link hover colors */
+.navbar__link:hover,
+.navbar__link--active,
+.navbar__item a:hover {
+  color: #8885f9 !important;
+}
+
+.menu__link:hover,
+.menu__link--active,
+.menu__list-item a:hover {
+  color: #8885f9 !important;
+  background-color: rgba(136, 133, 249, 0.1) !important;
+}
+
+.table-of-contents__link:hover,
+.table-of-contents__link--active {
+  color: #8885f9 !important;
+}
+
+/* Sidebar blog post links */
+.theme-blog-sidebar a:hover {
+  color: #8885f9 !important;
+}
+
+/* Pagination links */
+.pagination-nav__link:hover {
+  border-color: #8885f9 !important;
+}
+
+.pagination-nav__label::before {
+  color: #8885f9 !important;
+}
+
+
+/* Professional typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.32px;
+}
+
+/* Blog post styling */
+.blog-wrapper article {
+  margin-bottom: 2rem;
+}
+
+.blog-metadata {
+  font-size: 0.875rem;
+  color: var(--ifm-color-secondary);
+  margin-bottom: 1rem;
+}
+
+/* Footer styling */
+footer.footer {
+  background-color: #f3f2f1;
+}
+
+[data-theme='dark'] footer.footer {
+  background-color: #1e1e1e;
+}
+
+/* Code block improvements */
+.docusaurus-highlight-code-line {
+  background-color: var(--docusaurus-highlighted-code-line-bg);
+  display: block;
+  padding: 0 var(--ifm-pre-padding);
+}
+
+/* Better prose styling */
+.markdown h1:first-child {
+  margin-top: 0;
+}
+
+/* Author card styling */
+.author-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: var(--ifm-background-color);
+  border-radius: 8px;
+  border-left: 4px solid var(--ifm-color-primary);
+}
+
+.author-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+/* Blog metadata styling */
+.blog-metadata {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--ifm-color-secondary);
+}
+

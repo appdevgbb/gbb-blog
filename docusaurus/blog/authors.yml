@@ -1,0 +1,26 @@
+steve_griffith:
+  name: Steve Griffith
+  title: Principal Cloud Architect, Azure Global Black Belt
+  url: https://github.com/swgriffith
+  image_url: https://github.com/swgriffith.png
+  socials:
+    x: SteveGriffith
+    github: swgriffith
+
+ray_kao:
+  name: Ray Kao
+  title: Principal Cloud Architect, Azure Global Black Belt
+  url: https://github.com/raykao
+  image_url: https://github.com/raykao.png
+  socials:
+    x: raykao
+    github: raykao
+
+diego_casati:
+  name: Diego Casati
+  title: Principal Cloud Architect, Azure Global Black Belt
+  url: https://github.com/dcasati
+  image_url: https://github.com/dcasati.png
+  socials:
+    x: ve6dpc
+    github: dcasati
