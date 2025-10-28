@@ -87,10 +87,9 @@ const config: Config = {
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          to: '/',
           position: 'left',
-          label: 'Posts',
+          label: 'Blog',
         },
         {
           href: 'https://github.com/appdevgbb',
