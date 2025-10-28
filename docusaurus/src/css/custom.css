@@ -36,9 +36,9 @@
   --ifm-link-hover-decoration: underline;
 }
 
-/* Navbar styling */
+/* Navbar styling - Keep dark in both light and dark modes for readability */
 .navbar {
-  background: linear-gradient(90deg, #0078d4 0%, #0078d4 100%);
+  background: linear-gradient(90deg, #282a36 0%, #282a36 100%);
 }
 
 [data-theme='dark'] .navbar {
