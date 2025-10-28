@@ -86,6 +86,11 @@ const config: Config = {
           label: 'Blog',
         },
         {
+          href: 'https://www.youtube.com/@AzureGlobalBlackBelt',
+          label: 'YouTube',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/appdevgbb',
           label: 'GitHub',
           position: 'right',
