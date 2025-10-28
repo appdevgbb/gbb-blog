@@ -4,11 +4,11 @@
 
 Home for the Azure Global Blackbelt team to share knowledge and best practices on Azure, Kubernetes, and cloud-native technologies.
 
-## 🚀 Quick Start
+## Quick Start
 
 Visit the live blog: [https://azureglobalblackbelts.com](https://azureglobalblackbelts.com)
 
-## 📚 What You'll Find
+## What You'll Find
 
 This blog covers topics including:
 
@@ -19,7 +19,7 @@ This blog covers topics including:
 - **Platform Engineering**: Building scalable platforms on Azure
 - **Cloud Architecture**: Design patterns and best practices
 
-## 🛠️ Development Setup
+## Development Setup
 
 This site is built with [Docusaurus](https://docusaurus.io/). To run it locally:
 
@@ -52,7 +52,7 @@ npm run build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please see our [Contributing Guide](../../CONTRIBUTING.md) for details on how to:
 
@@ -61,11 +61,11 @@ We welcome contributions! Please see our [Contributing Guide](../../CONTRIBUTING
 - Add new posts
 - Review contributions
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-## 🔗 Related Resources
+## Related Resources
 
 - [Azure Kubernetes Service Documentation](https://learn.microsoft.com/azure/aks/)
 - [Azure Global Blackbelt GitHub](https://github.com/appdevgbb)
