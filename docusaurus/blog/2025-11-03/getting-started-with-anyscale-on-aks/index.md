@@ -4,10 +4,10 @@ authors:
 date: '2025-11-03'
 description: Anyscale provides an amazing user experience for deploying and operating Ray at scale. AKS can be used as the compute backend for Ray on Anyscale. In this article we'll show the basic process for creating an Anyscale compatible AKS deployment and how to create an Anyscale cloud instance backed by the AKS cluster. We'll then wrap it up by running a basic 'Hello World' job through the Anyscale portal on our AKS backend.
 tags: []
-title: Getting started with Anyscale on AKS
+title: Getting started with Anyscale running on Azure
 ---
 
-# Getting started with Anyscale on AKS
+# Getting started with Anyscale running on Azure
 
 In this walk through, we'll set up a very basic AKS cluster to get you quickly up and running with the Anyscale platform using AKS as the compute backend. We'll run this cluster in our own Azure Virtual Network and have it connected to an Azure Blob Storage Account on that VNet. Finally, we'll execute the basic Anyscale 'Hello World' demo on that compute.
 
@@ -343,7 +343,7 @@ CLOUD_DEPLOYMENT_ID=
 helm upgrade anyscale-operator anyscale/anyscale-operator \
 --set-string global.cloudDeploymentId=${CLOUD_DEPLOYMENT_ID} \
 --set-string global.cloudProvider=azure \
---set-string global.auth.anyscaleCliToken=$ANYSCALE_CLI_TOKEN \
+--set-string global.auth.anyscaleCliToken=${ANYSCALE_CLI_TOKEN} \
 --set-string workloads.serviceAccount.name=anyscale-operator \
 --namespace $ANYSCALE_NAMESPACE \
 --create-namespace \
