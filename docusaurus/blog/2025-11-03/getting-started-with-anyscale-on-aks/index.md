@@ -171,7 +171,7 @@ az aks create \
 --network-plugin azure \
 --network-plugin-mode overlay \
 --network-dataplane cilium \
---vnet-subnet-id $VNET_SUBNET_ID \
+--vnet-subnet-id $AKS_VNET_SUBNET_ID \
 --pod-cidr 10.244.0.0/16 \
 --service-cidr 10.245.0.0/24 \
 --dns-service-ip 10.245.0.10 \
@@ -242,6 +242,8 @@ ANYSCALE_MI_PRINCIPAL_ID=$(az identity show \
 --output tsv)
 
 # Grant Storage Blob Data Contributor role to the managed identity
+# Note: If you're moving very fast you may get a "Cannot find user" error.
+# Wait a few seconds and run the command again.
 az role assignment create \
 --role "Storage Blob Data Contributor" \
 --assignee $ANYSCALE_MI_PRINCIPAL_ID \
