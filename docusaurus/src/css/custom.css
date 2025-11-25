@@ -19,6 +19,10 @@
   --ifm-link-color: #8885f9;
   --ifm-link-hover-color: #8885f9;
   --ifm-link-hover-decoration: underline;
+  
+  /* Search input colors - light mode default */
+  --ifm-navbar-search-input-background-color: rgba(255, 255, 255, 0.1);
+  --ifm-navbar-search-input-color: #ffffff;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -192,5 +196,233 @@ footer.footer .footer__copyright {
   align-items: center;
   font-size: 0.9rem;
   color: var(--ifm-color-secondary);
+}
+
+/* Local Search Plugin - Aggressive Light Mode Override */
+html[data-theme='light'] {
+  /* Search button in navbar - keep dark to match navbar */
+  --ifm-navbar-search-input-background-color: rgba(255, 255, 255, 0.1) !important;
+  --ifm-navbar-search-input-color: #ffffff !important;
+  --ifm-navbar-search-input-placeholder-color: rgba(255, 255, 255, 0.6) !important;
+  --docsearch-modal-background: #ffffff !important;
+  --docsearch-searchbox-background: #ffffff !important;
+  --docsearch-text-color: #000000 !important;
+}
+
+html[data-theme='light'] .navbar__search input,
+html[data-theme='light'] .navbar__search input[type="search"],
+html[data-theme='light'] input.navbar__search-input,
+html[data-theme='light'] div[class*="searchBox"] input {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+
+/* Target the exact classes from the plugin with highest specificity */
+html[data-theme='light'] input.searchInput_T5pz.input_iKql.navbar__search-input,
+html[data-theme='light'] input.searchInput_T5pz.input_iKql,
+html[data-theme='light'] input.searchInput_T5pz,
+html[data-theme='light'] input.input_iKql,
+html[data-theme='light'] .navbar__search-input.searchInput_T5pz,
+html[data-theme='light'] input[role="combobox"] {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  background-image: none !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+/* Not focused state - even more specific */
+html[data-theme='light'] input.searchInput_T5pz.input_iKql:not(:focus),
+html[data-theme='light'] input[role="combobox"]:not(:focus) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+html[data-theme='light'] .navbar__search input:focus,
+html[data-theme='light'] .navbar__search input[type="search"]:focus,
+html[data-theme='light'] input.navbar__search-input:focus {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Focus states for specific classes */
+html[data-theme='light'] input.searchInput_T5pz:focus,
+html[data-theme='light'] input.input_iKql:focus,
+html[data-theme='light'] input[role="combobox"]:focus {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Search input in navbar - ONLY style the container, not when typing */
+[data-theme='light'] .navbar__search-input:not(:focus) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* When focused/typing - white background with black text */
+[data-theme='light'] .navbar__search-input:focus,
+[data-theme='light'] .navbar__search-input:active {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #cccccc !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Force black text when typing */
+[data-theme='light'] input[type="search"]:focus,
+[data-theme='light'] input[class*="search"]:focus {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Keep unfocused search input dark */
+[data-theme='light'] input[type="search"]:not(:focus),
+[data-theme='light'] input[class*="search"]:not(:focus) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+[data-theme='light'] .navbar__search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+[data-theme='light'] .navbar__search-input:focus::placeholder {
+  color: #666666 !important;
+}
+
+/* Search input wrapper/container */
+[data-theme='light'] .navbar__search,
+[data-theme='light'] div[class*="searchBox"] {
+  background-color: transparent !important;
+}
+
+/* Force dark background when NOT focused - multiple selectors */
+[data-theme='light'] .navbar__search input,
+[data-theme='light'] .navbar__search input[type="search"],
+[data-theme='light'] input.navbar__search-input,
+[data-theme='light'] div[class*="searchBox"] input {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+[data-theme='light'] .navbar__search input:not(:focus),
+[data-theme='light'] .navbar__search input[type="search"]:not(:focus),
+[data-theme='light'] input.navbar__search-input:not(:focus) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+/* White background only when focused */
+[data-theme='light'] .navbar__search input:focus,
+[data-theme='light'] .navbar__search input[type="search"]:focus,
+[data-theme='light'] input.navbar__search-input:focus {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Remove backgrounds from search icon and inner elements */
+[data-theme='light'] .navbar__search svg,
+[data-theme='light'] .navbar__search button,
+[data-theme='light'] div[class*="searchBox"] svg,
+[data-theme='light'] div[class*="searchBox"] button,
+[data-theme='light'] .navbar__search::before,
+[data-theme='light'] .navbar__search::after {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+[data-theme='light'] .navbar__search .aa-DetachedSearchButton,
+[data-theme='light'] .navbar__search [class*="SearchButton"] {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Target the search icon container specifically */
+[data-theme='light'] .navbar__search .search-icon,
+[data-theme='light'] .navbar__search [class*="searchIcon"],
+[data-theme='light'] div[class*="searchBox"] > div:first-child,
+[data-theme='light'] .navbar__search-input::before {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Style the search icon itself */
+[data-theme='light'] .navbar__search svg path,
+[data-theme='light'] div[class*="searchBox"] svg path {
+  fill: #ffffff !important;
+}
+
+/* Search popup/modal container */
+[data-theme='light'] div[class*="searchBarContainer"],
+[data-theme='light'] div[class*="suggestionContainer"],
+[data-theme='light'] .aa-Panel,
+[data-theme='light'] .aa-PanelLayout {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #cccccc !important;
+}
+
+/* All elements inside search results */
+[data-theme='light'] div[class*="searchBarContainer"] *,
+[data-theme='light'] div[class*="suggestionContainer"] *,
+[data-theme='light'] .aa-Panel *,
+[data-theme='light'] .aa-PanelLayout * {
+  color: #000000 !important;
+}
+
+/* Search result items */
+[data-theme='light'] div[class*="searchResultItem"],
+[data-theme='light'] .aa-Item {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+[data-theme='light'] div[class*="searchResultItem"]:hover,
+[data-theme='light'] .aa-Item:hover,
+[data-theme='light'] .aa-Item[aria-selected="true"] {
+  background-color: #f5f5f5 !important;
+}
+
+/* Highlighted text */
+[data-theme='light'] mark,
+[data-theme='light'] .aa-ItemContentTitle mark,
+[data-theme='light'] div[class*="searchResultItem"] mark {
+  background-color: #ffeb3b !important;
+  color: #000000 !important;
+  padding: 0 2px;
+}
+
+/* Warning message */
+[data-theme='light'] div[class*="noResultsScreen"],
+[data-theme='light'] .aa-DetachedOverlay {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Dark mode - ensure consistency */
+[data-theme='dark'] .navbar__search-input {
+  background-color: #2d2d2d !important;
+  color: #ffffff !important;
+}
+
+[data-theme='dark'] div[class*="searchBarContainer"],
+[data-theme='dark'] div[class*="suggestionContainer"] {
+  background-color: #2d2d2d !important;
+  color: #ffffff !important;
+}
+
+[data-theme='dark'] mark {
+  background-color: #8885f9 !important;
+  color: #ffffff !important;
 }
 
