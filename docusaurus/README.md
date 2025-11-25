@@ -1,8 +1,8 @@
-# Azure Global Blackbelt Blog
+# Azure Global Black Belt Blog
 
 [![Deploy to GitHub Pages](https://github.com/appdevgbb/gbb-blog/actions/workflows/deploy.yml/badge.svg)](https://github.com/appdevgbb/gbb-blog/actions/workflows/deploy.yml)
 
-Home for the Azure Global Blackbelt team to share knowledge and best practices on Azure, Kubernetes, and cloud-native technologies.
+Home for the Azure Global Black Belt team to share knowledge and best practices on Azure, Kubernetes, and cloud-native technologies.
 
 ## Quick Start
 
@@ -68,5 +68,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Related Resources
 
 - [Azure Kubernetes Service Documentation](https://learn.microsoft.com/azure/aks/)
-- [Azure Global Blackbelt GitHub](https://github.com/appdevgbb)
+- [Azure Global Black Belt GitHub](https://github.com/appdevgbb)
 - [Kubernetes Documentation](https://kubernetes.io/docs/)

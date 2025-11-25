@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Azure Global Blackbelt',
-  tagline: 'Home for the Azure Global Blackbelt team to share knowledge',
+  title: 'Azure Global Black Belt',
+  tagline: 'Home for the Azure Global Black Belt team to share knowledge',
   favicon: 'img/gbb.png',
   
   headTags: [
@@ -14,14 +14,14 @@ const config: Config = {
       tagName: 'meta',
       attributes: {
         name: 'og:title',
-        content: 'Azure Global Blackbelt',
+        content: 'Azure Global Black Belt',
       },
     },
     {
       tagName: 'meta',
       attributes: {
         name: 'og:description',
-        content: 'Home for the Azure Global Blackbelt team to share knowledge',
+        content: 'Home for the Azure Global Black Belt team to share knowledge',
       },
     },
     {
@@ -105,9 +105,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Azure Global Blackbelt',
+      title: 'Azure Global Black Belt',
       logo: {
-        alt: 'Azure Global Blackbelt Logo',
+        alt: 'Azure Global Black Belt Logo',
         src: 'img/gbb.png',
       },
       items: [
@@ -167,7 +167,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} App Innovation Global Blackbelt. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Azure Global Black Belt. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
@@ -175,6 +175,22 @@ const config: Config = {
       additionalLanguages: ['bicep', 'bash', 'powershell', 'json', 'yaml'],
     },
   } satisfies Preset.ThemeConfig,
+
+  themes: [
+    [
+      "@easyops-cn/docusaurus-search-local",
+      {
+        hashed: true,
+        language: ["en"],
+        highlightSearchTermsOnTargetPage: true,
+        explicitSearchResultPath: true,
+        blogRouteBasePath: '/',
+        docsRouteBasePath: [],
+        indexBlog: true,
+        indexDocs: false,
+      },
+    ],
+  ],
 };
 
 export default config;
