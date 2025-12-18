@@ -97,6 +97,11 @@ const config: Config = {
     ],
   ],
 
+  // Enable Mermaid diagram support
+  markdown: {
+    mermaid: true,
+  },
+
   themeConfig: {
     // Replace with your project's social card
     image: 'img/gbb.png',
@@ -177,6 +182,7 @@ const config: Config = {
   } satisfies Preset.ThemeConfig,
 
   themes: [
+    '@docusaurus/theme-mermaid',
     [
       "@easyops-cn/docusaurus-search-local",
       {
