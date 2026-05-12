@@ -1,6 +1,7 @@
 ---
 authors:
   - diego_casati
+  - mohamad_al_jazaery
 date: '2026-05-11'
 description: >
   Deploy NVIDIA Dynamo on AKS with disaggregated vLLM inference and KEDA
