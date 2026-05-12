@@ -25,10 +25,10 @@ diego_casati:
     x: ve6dpc
     github: dcasati
 
-mohamad_al_jazaery
-  name: mohamad_al_jazaery
+mohamad_al_jazaery:
+  name: Mohamad Al Jazaery
   title: Principal Solution Engineer, Azure Global Black Belt
   url: https://github.com/maljazaery
-  image: https://github.com/maljazaery.png
+  image_url: https://github.com/maljazaery.png
   socials:
     github: maljazaery
