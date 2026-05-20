@@ -13,6 +13,14 @@ title: "Continuous Profiling on AKS with Pyroscope, Blob Storage, and Managed Gr
 
 # Continuous Profiling on AKS with Pyroscope, Blob Storage, and Managed Grafana
 
+:::note Post Updates
+**2026-05-20** — Updated based on lessons learned from a live deployment:
+- Removed hardcoded `pyroscope.image.tag` from `values-azure.yaml` to prevent chart/image version mismatches when the chart is upgraded
+- Added `pyroscope.extraLabels` with `azure.workload.identity/use: "true"` to propagate the label to all pod templates (the chart uses `extraLabels`, not `podLabels`)
+- Pinned `--version 2.0.1` in the `helm upgrade --install` command
+- Added a Troubleshooting callout documenting the two most common crash patterns and their fixes
+:::
+
 You deploy your workloads on AKS and collect metrics with Prometheus and logs with Loki. But when latency spikes hit, you stare at dashboards knowing _something_ is slow without knowing _where_ in your code the time is being spent.
 
 That's the gap continuous profiling fills.
@@ -376,9 +384,11 @@ Now create `values-azure.yaml` to configure Azure Blob Storage with Workload Ide
 cat <<EOF> values-azure.yaml
 # values-azure.yaml
 pyroscope:
-  image:
-    repository: grafana/pyroscope
-    tag: "1.15.0"
+  # extraLabels propagates labels to every pod template.
+  # Required for the Azure Workload Identity webhook to inject
+  # AZURE_CLIENT_ID / AZURE_FEDERATED_TOKEN_FILE into pods.
+  extraLabels:
+    azure.workload.identity/use: "true"
   serviceAccount:
     create: false
     name: pyroscope-sa
@@ -425,7 +435,8 @@ Deploy:
 helm upgrade --install pyroscope grafana/pyroscope \
   --namespace ${PYROSCOPE_NAMESPACE} \
   --values values-micro-services.yaml \
-  --values values-azure.yaml
+  --values values-azure.yaml \
+  --version 2.0.1
 ```
 
 Wait for all pods to be ready:
@@ -433,6 +444,22 @@ Wait for all pods to be ready:
 ```bash
 kubectl -n ${PYROSCOPE_NAMESPACE} get pods -w
 ```
+
+:::warning Troubleshooting: pods crash immediately on startup
+Two common crash patterns and their fixes:
+
+**`flag provided but not defined: -query-backend.address`** — The Helm chart version and the container image version are out of sync. Chart `2.x` generates CLI flags that the `1.x` image binary doesn't recognise. Pinning `--version 2.0.1` in the install command above keeps them aligned. If you omit `--version`, always let the chart default to its own `appVersion` image by **not** hardcoding `pyroscope.image.tag` in your values.
+
+**`WorkloadIdentityCredential: no client ID specified`** — The Azure Workload Identity webhook injects `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_FEDERATED_TOKEN_FILE` only when the **pod template** carries the label `azure.workload.identity/use: "true"`. Annotating the ServiceAccount is necessary but not sufficient. The `pyroscope.extraLabels` block in `values-azure.yaml` above propagates the label to every pod template via the Helm chart. If you upgrade an existing release that was deployed without this label, patch all workloads and delete any stuck StatefulSet pods to force recreation:
+
+```bash
+for r in $(kubectl get deployments,statefulsets -n pyroscope -o name); do
+  kubectl patch $r -n pyroscope \
+    --type=merge \
+    -p '{"spec":{"template":{"metadata":{"labels":{"azure.workload.identity/use":"true"}}}}}'
+done
+```
+:::
 
 Expected output:
 
