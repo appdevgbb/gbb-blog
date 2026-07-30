@@ -138,6 +138,12 @@ The example uses these versions:
 | oauth2-proxy | `v7.15.2` |
 | cert-manager | `v1.21.1` |
 
+:::note TLS for the demo
+This setup uses cert-manager and Let's Encrypt to add TLS (commonly referred to
+as SSL) to the public demo endpoint. They are included for demonstration
+purposes and are not required by the Entra authentication flow itself.
+:::
+
 For the Istio asm / AKS compatibility, please refer to the [documentation](https://learn.microsoft.com/en-us/azure/aks/istio-support-policy).
 
 ## Create the AKS Cluster
@@ -392,7 +398,6 @@ data:
             - x-auth-request-user
             - x-auth-request-email
             - x-auth-request-access-token
-            - authorization
           headersToDownstreamOnAllow:
             - set-cookie
           headersToDownstreamOnDeny:
@@ -400,6 +405,16 @@ data:
             - content-type
             - location
 ```
+
+:::note Forward the ID token to the application
+The configuration above does not add an `Authorization` header to the request
+sent to the application. If the application needs the ID token as
+`Authorization: Bearer <ID-token>`, add `--set-authorization-header=true` to the
+oauth2-proxy container arguments and add `authorization` to
+`headersToUpstreamOnAllow`. Both settings are required: oauth2-proxy produces
+the response header, and Envoy copies it into the request sent to the
+application.
+:::
 
 The `location` and `set-cookie` response headers matter. Without them, Envoy can
 deny the unauthenticated request but the browser will not receive the complete
