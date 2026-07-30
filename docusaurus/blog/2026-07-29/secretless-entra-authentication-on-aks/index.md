@@ -20,74 +20,67 @@ title: "Secretless Microsoft Entra ID Authentication for AKS with Istio and oaut
 
 # Secretless Microsoft Entra ID Authentication for AKS with Istio and oauth2-proxy
 
-Putting an application behind an ingress gateway is straightforward. Making the
-gateway enforce Microsoft Entra ID authentication without adding an OAuth client
-secret is where the design gets more interesting.
+Sometimes, you need to add authentication to an application without modifying its source code. It might be off-the-shelf software or an older in-house application built before modern authentication protocols such as OpenID Connect or SAML 2.0 became commonplace. So how can you protect it with modern authentication without changing the application itself?
 
-In this post I'll show how I protected the
+This is where a reverse proxy can handle authentication on the application's behalf.
+
+In this post we'll show how to protect the
 [AKS Store Demo](https://github.com/Azure-Samples/aks-store-demo) with an Istio
-Gateway, oauth2-proxy, and Microsoft Entra ID. Istio delegates every protected
-request to oauth2-proxy through Envoy external authorization. oauth2-proxy uses
-PKCE for the user authorization flow and AKS Workload Identity to authenticate
-the app registration when it redeems the authorization code.
+Gateway (using the Gateway API), [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/), and Microsoft Entra ID. Istio service mesh delegates every protected
+request to oauth2-proxy through Envoy external authorization. Envoy's external authorization filter delegates authorization decisions to an external HTTP or gRPC service, allowing flexible and centralized access control. Oauth2-proxy uses
+the authorization code flow with PKCE (Proof Key for Code Exchange) to authenticate the user. It uses AKS Workload Identity to authenticate the app registration when redeeming the authorization code.
 
-There is no Entra application password to create, store in Kubernetes, or
-rotate.
+There is no Entra application password to create, store in Kubernetes, or rotate.
 
 <!-- truncate -->
 
 ## Architecture
 
 ```text
-                                      Microsoft Entra ID
-                                  +--------------------------+
-                                  | authorize + token        |
-                                  | endpoints                |
-                                  +------------^-------------+
-                                               |
-                                   code + PKCE + federated
-                                      client assertion
-                                               |
-+----------+      HTTPS       +----------------+----------------+
-| Browser  |----------------->| Azure Load Balancer             |
-+----------+                  | Istio Gateway API Gateway       |
-                              | TLS termination                 |
-                              +----------------+----------------+
-                                               |
-                                      CUSTOM AuthorizationPolicy
-                                               |
-                                               v
-                              +---------------------------------+
-                              | Envoy ext_authz                 |
-                              | oauth2-proxy:4180               |
-                              +----------------+----------------+
-                                               |
-                                      request allowed
-                                               |
-                                               v
-                              +---------------------------------+
-                              | AKS Store Front                 |
-                              | ClusterIP service               |
-                              +---------------------------------+
+                +----------------------------+
+                | Microsoft Entra ID         |
+                | authorize + token endpoints|
+                +-------------^--------------+
+                      |
+                code + PKCE + federated
+                  client assertion
+                      |
++---------+    HTTPS    +-------------------+-------------------+
+| Browser |------------>| Azure Load Balancer and Istio Gateway |
++---------+             | Envoy proxy: TLS + ext_authz filter   |
+            +----------+-------------------+---------+
+                   |                   |
+            authorization|check              |allowed request
+                   v                   v
+            +-------------------+  +---------------------+
+            | oauth2-proxy:4180 |  | AKS Store Front     |
+            | ClusterIP service |  | ClusterIP service   |
+            +---------^---------+  +---------------------+
+                  |
+           projected service account token
+                  |
+            +---------+---------+
+            | AKS OIDC issuer   |
+            +-------------------+
 
-AKS OIDC issuer ---- projected service account token ----> oauth2-proxy
-       |                                                    |
-       +---- trusted by Entra federated credential <--------+
+Microsoft Entra ID trusts the token issuer and subject through the federated credential.
 ```
 
-The important boundary is the gateway. The store services are changed from
-`LoadBalancer` to `ClusterIP`, so users cannot skip Istio and reach the
-application directly.
+The gateway is the key security boundary in this architecture because it ensures every request passes through Istio and the authentication flow before reaching the application. To prevent users from bypassing that boundary, the store services are changed from `LoadBalancer` to `ClusterIP`. This removes their direct public endpoints and makes the Istio gateway the only external path to the application.
 
 The authentication path has two distinct identities:
 
 1. The browser user authenticates with Microsoft Entra ID through the OpenID
    Connect authorization code flow.
-2. oauth2-proxy authenticates itself to Entra with the projected Kubernetes
-   service account token.
+2. oauth2-proxy authenticates itself to Entra through Workload Identity. It uses
+  the projected Kubernetes service account token as a federated client assertion
+  when exchanging the authorization code for tokens.
 
-PKCE protects the authorization code. Workload Identity replaces the OAuth
-client secret. They solve different problems, and this setup uses both.
+Workload Identity replaces the long-lived OAuth client secret with a short-lived,
+federated Kubernetes service account token. This reduces the risk associated with
+storing persistent credentials in the cluster while easing the operational burden
+on platform teams, which no longer need to distribute, synchronize, and rotate an
+Entra client secret through mechanisms such as the Secrets Store CSI Driver.
 
 ## Authentication Sequence
 
@@ -96,8 +89,7 @@ sequenceDiagram
   autonumber
   actor User
   participant DNS as Public DNS
-  participant Gateway as Azure LB and Istio Gateway
-  participant Authz as Envoy ext_authz
+  participant Gateway as Azure LB and Istio Gateway (Envoy)
   participant Proxy as oauth2-proxy
   participant Entra as Microsoft Entra ID
   participant Store as AKS Store Front
@@ -105,38 +97,28 @@ sequenceDiagram
   User->>DNS: Resolve application hostname
   DNS-->>User: Gateway public IP
   User->>Gateway: GET / over HTTPS
-  Gateway->>Authz: Apply CUSTOM AuthorizationPolicy
-  Authz->>Proxy: Check cookies and headers
-  Proxy-->>Authz: 302 sign-in response and CSRF cookie
-  Authz-->>Gateway: Deny request with redirect response
+  Note over Gateway: Envoy applies the CUSTOM AuthorizationPolicy
+  Gateway->>Proxy: ext_authz check with cookies and headers
+  Proxy-->>Gateway: 302 sign-in response and CSRF cookie
   Gateway-->>User: 302 to Microsoft Entra ID
 
   User->>Entra: Sign in and grant requested OIDC scopes
   Entra-->>User: 302 /oauth2/callback with authorization code
   User->>Gateway: GET /oauth2/callback
-  Note over Gateway,Authz: /oauth2/* bypasses the CUSTOM policy
+  Note over Gateway: /oauth2/* bypasses the CUSTOM policy
   Gateway->>Proxy: Route callback through HTTPRoute
   Proxy->>Entra: Exchange code, PKCE verifier, and federated assertion
   Entra-->>Proxy: ID and access tokens
-  Proxy-->>User: Set secure session cookie and redirect to /
+  Proxy-->>Gateway: Set secure session cookie and redirect to /
+  Gateway-->>User: Forward callback response
 
   User->>Gateway: GET / with session cookie
-  Gateway->>Authz: Apply CUSTOM AuthorizationPolicy
-  Authz->>Proxy: Validate session cookie
-  Proxy-->>Authz: 202 allow with identity headers
-  Authz-->>Gateway: Allow request
+  Gateway->>Proxy: ext_authz check with session cookie
+  Proxy-->>Gateway: 202 allow with identity headers
   Gateway->>Store: Route to store-front:80
   Store-->>Gateway: Application response
   Gateway-->>User: Authenticated application response
 ```
-
-:::warning Gateway API support with the managed Istio add-on
-At the time of writing, Microsoft documents Gateway API for Istio ingress as not
-yet supported with the AKS managed Istio add-on. The implementation in this post
-works in the tested environment, but it is outside the currently documented
-support boundary. For a supported production design, validate the latest AKS
-Istio support policy or use the supported managed ingress gateway APIs.
-:::
 
 ## Prerequisites
 
@@ -156,11 +138,18 @@ The example uses these versions:
 | oauth2-proxy | `v7.15.2` |
 | cert-manager | `v1.21.1` |
 
+:::note TLS for the demo
+This setup uses cert-manager and Let's Encrypt to add TLS (commonly referred to
+as SSL) to the public demo endpoint. They are included for demonstration
+purposes and are not required by the Entra authentication flow itself.
+:::
+
+For the Istio asm / AKS compatibility, please refer to the [documentation](https://learn.microsoft.com/en-us/azure/aks/istio-support-policy).
+
 ## Create the AKS Cluster
 
-The cluster needs the OIDC issuer, Workload Identity, and Gateway API enabled.
-The OIDC issuer publishes the keys Entra uses to validate projected service
-account tokens.
+The cluster needs the OIDC issuer, Workload Identity, and Gateway API enabled (to work with the Istio ingress).
+The OIDC issuer publishes the keys Entra uses to validate projected service account tokens.
 
 ```bash
 export CLUSTER_NAME="aks-oauth2-proxy-POC-01"
@@ -186,13 +175,9 @@ az aks create \
   --generate-ssh-keys \
   --enable-oidc-issuer \
   --enable-workload-identity \
+  --enable-gateway-api \
   --enable-azure-service-mesh \
   --revision asm-1-29
-
-az aks update \
-  --name "${CLUSTER_NAME}" \
-  --resource-group "${RESOURCE_GROUP}" \
-  --enable-gateway-api
 
 az aks get-credentials \
   --name "${CLUSTER_NAME}" \
@@ -209,8 +194,7 @@ az aks show \
   --query '{oidc:oidcIssuerProfile.enabled,workloadIdentity:securityProfile.workloadIdentity.enabled,issuer:oidcIssuerProfile.issuerUrl}'
 ```
 
-Both Boolean values should be `true`, and `issuer` should contain the AKS OIDC
-issuer URL.
+Both boolean values should be `true`, and `issuer` should contain the AKS OIDC issuer URL.
 
 ## Deploy the Store Without a Public Bypass
 
@@ -239,8 +223,7 @@ done
 Verify there is no direct public endpoint:
 
 ```bash
-kubectl get service store-front store-admin \
-  --namespace aks-store-demo
+kubectl get service store-front store-admin --namespace aks-store-demo
 ```
 
 Both services should show `ClusterIP` under `TYPE`.
@@ -261,15 +244,21 @@ export TENANT_ID=$(az account show \
   --output tsv)
 ```
 
-For the first pass I use the gateway address with `sslip.io`. The deployment
-script in the sample repository creates the Gateway and derives this value
-automatically. If you already know the public hostname, set it directly:
+The Entra redirect URI must be known before the app registration is created. The
+manual sequence below assumes that you already have a public hostname and will
+point its DNS record to the Gateway address after creating the Gateway. Set that
+hostname now:
 
 ```bash
 export STORE_URL="https://store.example.com"
 export REDIRECT_URL="${STORE_URL}/oauth2/callback"
 export APP_NAME="aks-store-demo-oauth2-proxy"
 ```
+
+For a quick test with `sslip.io`, the order is different: create the Gateway
+first, wait for its public IP address, derive `STORE_URL` from that address, and
+then return to this section to create the Entra application. The deployment
+script described later automates this bootstrap sequence.
 
 Create a single-tenant web application and its service principal:
 
@@ -288,10 +277,6 @@ Do not run `az ad app credential reset`. That command creates the application
 password we are intentionally removing from this design.
 
 ## Federate the App Registration with Kubernetes
-
-This is the part I initially had to look at twice. The federated credential must
-be created on the oauth2-proxy app registration itself. Creating a separate
-User-Assigned Managed Identity does not authenticate this confidential client.
 
 oauth2-proxy uses the app registration's client ID and presents the projected
 service account token as its client assertion.
@@ -337,13 +322,10 @@ spec:
       serviceAccountName: oauth2-proxy
 ```
 
-The AKS mutating webhook uses that label to inject the projected token volume
-and the environment variables oauth2-proxy needs to find it.
+The AKS Workload Identity webhook looks for this label when it creates the pod. When the label is present, the webhook gives the pod access to a short-lived service account token and tells oauth2-proxy where to find it.
 
 :::note Restart pods after changing the service account
-Workload Identity mutation happens when the pod is created. Updating the service
-account annotation does not rewrite existing pods. Restart the deployment after
-changing the client ID.
+Workload Identity is configured only when a pod starts. If you update the service account annotation or change the client ID, restart the deployment so AKS can recreate the pods with the updated configuration.
 :::
 
 ## Configure oauth2-proxy Without a Client Secret
@@ -416,7 +398,6 @@ data:
             - x-auth-request-user
             - x-auth-request-email
             - x-auth-request-access-token
-            - authorization
           headersToDownstreamOnAllow:
             - set-cookie
           headersToDownstreamOnDeny:
@@ -425,14 +406,48 @@ data:
             - location
 ```
 
+:::note Forward the ID token to the application
+The configuration above does not add an `Authorization` header to the request
+sent to the application. If the application needs the ID token as
+`Authorization: Bearer <ID-token>`, add `--set-authorization-header=true` to the
+oauth2-proxy container arguments and add `authorization` to
+`headersToUpstreamOnAllow`. Both settings are required: oauth2-proxy produces
+the response header, and Envoy copies it into the request sent to the
+application.
+:::
+
 The `location` and `set-cookie` response headers matter. Without them, Envoy can
 deny the unauthenticated request but the browser will not receive the complete
 sign-in redirect and CSRF cookie from oauth2-proxy.
 
+:::warning Preserve existing mesh configuration
+The shared ConfigMap name includes the installed Istio revision, following the
+format `istio-shared-configmap-<asm-revision>`. Confirm your revision and update
+the name accordingly.
+
+Before applying this manifest, check whether the ConfigMap already exists:
+
+```bash
+kubectl get configmap "istio-shared-configmap-asm-1-29" \
+  --namespace aks-istio-system \
+  --output yaml
+```
+
+If it exists, merge the `extensionProviders` configuration with the existing
+content under `data.mesh`. Applying the example unchanged replaces the entire
+`data.mesh` value and can remove other mesh settings.
+
+See [Configure Istio-based service mesh add-on for AKS](https://learn.microsoft.com/azure/aks/istio-meshconfig)
+for naming, configuration, and upgrade guidance.
+:::
+
+:::warning Azure support boundaries
+Any issues associated with extension tools are outside the support boundary of the Istio add-on.
+:::
+
 ## Apply the Authorization Policy
 
-The Gateway routes `/oauth2` callbacks to oauth2-proxy and sends application
-traffic to `store-front`:
+The Gateway routes `/oauth2` callbacks to oauth2-proxy (as described in the [documentation](https://oauth2-proxy.github.io/oauth2-proxy/features/endpoints/)) and sends application traffic to `store-front`:
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -488,10 +503,10 @@ The two exclusions are intentional:
 * `/oauth2/*` must reach oauth2-proxy so it can start sign-in and process the
   callback.
 * `/.well-known/acme-challenge/*` must remain reachable so cert-manager can issue
-  and renew the certificate with HTTP-01.
+  and renew the certificate with HTTP-01 when you use Let's Encrypt for
+  certificate management.
 
-Keep this list narrow. Every excluded path bypasses the external authorization
-check.
+Keep this list narrow. Every excluded path bypasses the external authorization check.
 
 ## Deploy the Complete Sample
 
@@ -661,9 +676,6 @@ The pieces that make it work are:
 
 * **Istio external authorization** pauses protected requests at Envoy and sends
   them to oauth2-proxy before the application sees them.
-* **ClusterIP backend services** remove alternate public paths that would bypass
-  the policy.
-* **PKCE** protects the browser authorization code flow.
 * **AKS Workload Identity** projects a signed Kubernetes service account token
   into the oauth2-proxy pod.
 * **Direct app registration federation** lets oauth2-proxy use that token as its
